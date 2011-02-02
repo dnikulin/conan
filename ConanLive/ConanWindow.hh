@@ -18,22 +18,29 @@
 #ifndef CONANWINDOW_HH
 #define CONANWINDOW_HH
 
+#include "ConanTypes.hh"
+
 #include <QMainWindow>
 
 namespace Ui {
     class ConanWindow;
 }
 
-class ConanWindow : public QMainWindow
-{
+class ConanWindow : public QMainWindow {
     Q_OBJECT
 
 public:
+
     explicit ConanWindow(QWidget *parent = 0);
     ~ConanWindow();
 
 private:
+
     Ui::ConanWindow *ui;
+
+    // Current volume
+    // TODO: Factor out into session state
+    Conan::Volume volume;
 };
 
 #endif // CONANWINDOW_HH

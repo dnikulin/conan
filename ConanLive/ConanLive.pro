@@ -9,6 +9,17 @@ QT       += core gui opengl
 TARGET = ConanLive
 TEMPLATE = app
 
+DEPENDPATH +=                  \
+    ../ConanZero/              \
+
+INCLUDEPATH +=                 \
+    ../ConanZero/              \
+
+LIBS +=                        \
+    -L../ConanZero/            \
+    -lConanZero                \
+    -lglut                     \
+
 SOURCES +=                     \
     main.cc                    \
     ConanWindow.cc             \

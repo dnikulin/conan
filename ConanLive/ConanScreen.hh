@@ -18,10 +18,11 @@
 #ifndef CONANSCREEN_HH
 #define CONANSCREEN_HH
 
+#include "ConanTypes.hh"
+
 #include <QGLWidget>
 
-class ConanScreen : public QGLWidget
-{
+class ConanScreen : public QGLWidget {
     Q_OBJECT
 
 public:
@@ -33,6 +34,8 @@ signals:
 
 public slots:
 
+    void setVolume(Conan::Volume const * volume);
+
 protected:
 
     virtual void initializeGL();
@@ -42,8 +45,14 @@ protected:
     virtual void drawPlaneX();
     virtual void drawPlaneY();
     virtual void drawPlaneZ();
+    virtual void drawVoxels();
 
-    qreal aspect;
+    virtual void rulePlanesBezel();
+    virtual void rulePlanes();
+
+    Conan::Volume const * volume;
+
+    QPoint screenSize;
 };
 
 #endif // CONANSCREEN_HH

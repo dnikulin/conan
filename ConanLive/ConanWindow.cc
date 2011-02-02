@@ -18,14 +18,30 @@
 #include "ConanWindow.hh"
 #include "ui_ConanWindow.h"
 
+#include <iostream>
+
 ConanWindow::ConanWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ConanWindow)
 {
+
+    std::cerr << "ConanWindow::ConanWindow()" << std::endl;
+
     ui->setupUi(this);
+
+    // Generate mock volume
+    int const width = 4;
+    volume.resize(width, width, width);
+    volume = 0;
+    for (int i = 0; i < width; i++)
+        volume(i, i, i) = qreal(i + 1) / width;
+
+    // Connect screen to mock volume
+    ui->screen->setVolume(&volume);
 }
 
-ConanWindow::~ConanWindow()
-{
+ConanWindow::~ConanWindow() {
+    std::cerr << "ConanWindow::~ConanWindow()" << std::endl;
+
     delete ui;
 }
