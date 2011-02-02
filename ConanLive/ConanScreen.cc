@@ -23,6 +23,9 @@
 
 ConanScreen::ConanScreen(QWidget *parent) : QGLWidget(parent) {
     std::cerr << "ConanScreen::ConanScreen()" << std::endl;
+
+    volume = NULL;
+    volumeList = 0;
 }
 
 ConanScreen::~ConanScreen() {
@@ -33,6 +36,8 @@ void ConanScreen::setVolume(Conan::Volume const * volume) {
     std::cerr << "ConanScreen::setVolume()" << std::endl;
 
     this->volume = volume;
+
+    prepareList();
     repaint();
 }
 
@@ -46,6 +51,9 @@ void ConanScreen::initializeGL() {
 
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Prepare existing volume if any
+    prepareList();
 }
 
 void ConanScreen::paintGL() {
@@ -56,6 +64,9 @@ void ConanScreen::paintGL() {
 
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    if (volume == NULL)
+        return;
 
     // Assign orthographic projection matrix
     int voxels = volume->columns();
@@ -102,7 +113,7 @@ void ConanScreen::drawPlaneX() {
     glTranslatef(0, voxels, voxels);
     glRotatef(-90, 0, 1, 0);
     glTranslatef(-voxels, -voxels, -voxels);
-    drawVoxels();
+    glCallList(volumeList);
     glPopMatrix();
 }
 
@@ -119,7 +130,7 @@ void ConanScreen::drawPlaneY() {
     glTranslatef(voxels, 0, voxels);
     glRotatef(90, 1, 0, 0);
     glTranslatef(-voxels, -voxels, -voxels);
-    drawVoxels();
+    glCallList(volumeList);
     glPopMatrix();
 }
 
@@ -132,7 +143,7 @@ void ConanScreen::drawPlaneZ() {
     glViewport(0, 0, width / 2, height / 2);
 
     glPushMatrix();
-    drawVoxels();
+    glCallList(volumeList);
     glPopMatrix();
 }
 
@@ -173,8 +184,23 @@ void ConanScreen::rulePlanes() {
     glEnd();
 }
 
+void ConanScreen::prepareList() {
+    std::cerr << "ConanScreen::prepareList()" << std::endl;
+
+    // Allocate list if unavailable
+    if (volumeList == 0)
+        volumeList = glGenLists(1);
+
+    glNewList(volumeList, GL_COMPILE);
+    drawVoxels();
+    glEndList();
+}
+
 void ConanScreen::drawVoxels() {
     std::cerr << "ConanScreen::drawVoxels()" << std::endl;
+
+    if (volume == NULL)
+        return;
 
     int voxels = volume->columns();
 

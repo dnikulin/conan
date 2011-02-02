@@ -34,6 +34,12 @@ ConanWindow::ConanWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
+    // Connect signal for volume change
+    ui->screen->connect(this,
+        SIGNAL(changedVolume(Conan::Volume const *)),
+        SLOT(setVolume(Conan::Volume const *))
+    );
+
     // Generate mock volume
     int const width = 8;
     volume.resize(width, width, width);
@@ -45,14 +51,8 @@ ConanWindow::ConanWindow(QWidget *parent) :
     for (int i = 0; i < width; i++)
         volume(i, 2, 2) = qreal(i + 1) / width;
 
-    // Connect screen to mock volume
-    ui->screen->setVolume(&volume);
-
-    // Connect signal for volume change
-    ui->screen->connect(this,
-        SIGNAL(changedVolume(Conan::Volume const *)),
-        SLOT(setVolume(Conan::Volume const *))
-    );
+    // Signal volume change now
+    emit changedVolume(&volume);
 }
 
 ConanWindow::~ConanWindow() {

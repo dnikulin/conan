@@ -45,6 +45,8 @@ protected:
     virtual void drawPlaneX();
     virtual void drawPlaneY();
     virtual void drawPlaneZ();
+
+    virtual void prepareList();
     virtual void drawVoxels();
 
     virtual void rulePlanesBezel();
@@ -53,6 +55,8 @@ protected:
     Conan::Volume const * volume;
 
     QPoint screenSize;
+
+    GLuint volumeList;
 };
 
 #endif // CONANSCREEN_HH
