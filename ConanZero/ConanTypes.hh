@@ -13,26 +13,16 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef CONANZERO_GLOBAL_HH
-#define CONANZERO_GLOBAL_HH
+#ifndef CONANTYPES_HH
+#define CONANTYPES_HH
 
-// Use QtCore types.
-#include <QtCore/QtGlobal>
+#include "ConanZeroGlobal.hh"
 
-// Use official OpenCL C++ wrapper with exceptions enabled.
-// When QtOpenCL is officially released, Conan will
-// very likely switch to use it.
-#define __CL_ENABLE_EXCEPTIONS
-#include <CL/cl.hpp>
+namespace Conan {
 
-// Use Blitz C++ for numeric arrays.
-#include <blitz/array.h>
+// 3D volume array of native OpenCL float type (32-bit).
+typedef blitz::Array<cl_float, 3> Volume;
 
-// Declare macro for symbol import/export.
-#if defined(CONANZERO_LIBRARY)
-#  define CONANZEROSHARED_EXPORT Q_DECL_EXPORT
-#else
-#  define CONANZEROSHARED_EXPORT Q_DECL_IMPORT
-#endif
+}
 
-#endif // CONANZERO_GLOBAL_HH
+#endif // CONANTYPES_HH

@@ -15,3 +15,4 @@ SOURCES +=                     \
 
 HEADERS +=                     \
     ConanZeroGlobal.hh         \
+    ConanTypes.hh              \
