@@ -1,0 +1,12 @@
+#ifndef CONANZERO_GLOBAL_HH
+#define CONANZERO_GLOBAL_HH
+
+#include <QtCore/QtGlobal>
+
+#if defined(CONANZERO_LIBRARY)
+#  define CONANZEROSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define CONANZEROSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // CONANZERO_GLOBAL_HH
