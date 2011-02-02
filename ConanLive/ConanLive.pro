@@ -4,15 +4,19 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 TARGET = ConanLive
 TEMPLATE = app
 
+SOURCES +=                     \
+    main.cc                    \
+    ConanWindow.cc             \
+    ConanScreen.cc             \
 
-SOURCES += main.cc\
-        ConanWindow.cc
+HEADERS +=                     \
+    ConanWindow.hh             \
+    ConanScreen.hh             \
 
-HEADERS  += ConanWindow.hh
-
-FORMS    += ConanWindow.ui
+FORMS +=                       \
+    ConanWindow.ui             \
