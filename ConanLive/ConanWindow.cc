@@ -18,6 +18,11 @@
 #include "ConanWindow.hh"
 #include "ui_ConanWindow.h"
 
+#include "TextFile.hh"
+
+#include <QFileDialog>
+#include <QMessageBox>
+
 #include <iostream>
 
 ConanWindow::ConanWindow(QWidget *parent) :
@@ -42,10 +47,37 @@ ConanWindow::ConanWindow(QWidget *parent) :
 
     // Connect screen to mock volume
     ui->screen->setVolume(&volume);
+
+    // Connect signal for volume change
+    ui->screen->connect(this,
+        SIGNAL(changedVolume(Conan::Volume const *)),
+        SLOT(setVolume(Conan::Volume const *))
+    );
 }
 
 ConanWindow::~ConanWindow() {
     std::cerr << "ConanWindow::~ConanWindow()" << std::endl;
 
     delete ui;
+}
+
+void ConanWindow::clickedOpenTextFile() {
+    std::cerr << "ConanWindow::clickedOpenTextFile()" << std::endl;
+
+    QString path = QFileDialog::getOpenFileName(this,
+            "Open text data file", "", "*.txt");
+
+    if (path.isEmpty())
+        return;
+
+    Conan::readTextFileVolume(&volume, path);
+
+    // Check the volume was actually populated
+    if (volume.columns() < 1) {
+        QString message("Volume size must be a cube of a power of 2");
+        QMessageBox::critical(this, message, message);
+    }
+
+    // Either way, emit signal for volume change
+    emit changedVolume(&volume);
 }

@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2011-02-02T18:49:25
-#
-#-------------------------------------------------
-
 QT       += core gui opengl
 
 TARGET = ConanLive
@@ -11,13 +5,17 @@ TEMPLATE = app
 
 DEPENDPATH +=                  \
     ../ConanZero/              \
+    ../ConanFile/              \
 
 INCLUDEPATH +=                 \
     ../ConanZero/              \
+    ../ConanFile/              \
 
 LIBS +=                        \
     -L../ConanZero/            \
+    -L../ConanFile/            \
     -lConanZero                \
+    -lConanFile                \
     -lglut                     \
 
 SOURCES +=                     \

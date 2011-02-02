@@ -34,6 +34,14 @@ public:
     explicit ConanWindow(QWidget *parent = 0);
     ~ConanWindow();
 
+signals:
+
+    void changedVolume(Conan::Volume const * volume);
+
+public slots:
+
+    void clickedOpenTextFile();
+
 private:
 
     Ui::ConanWindow *ui;
