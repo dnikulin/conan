@@ -30,11 +30,15 @@ ConanWindow::ConanWindow(QWidget *parent) :
     ui->setupUi(this);
 
     // Generate mock volume
-    int const width = 4;
+    int const width = 8;
     volume.resize(width, width, width);
     volume = 0;
+
     for (int i = 0; i < width; i++)
         volume(i, i, i) = qreal(i + 1) / width;
+
+    for (int i = 0; i < width; i++)
+        volume(i, 2, 2) = qreal(i + 1) / width;
 
     // Connect screen to mock volume
     ui->screen->setVolume(&volume);

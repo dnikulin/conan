@@ -39,11 +39,12 @@ void ConanScreen::setVolume(Conan::Volume const * volume) {
 void ConanScreen::initializeGL() {
     std::cerr << "ConanScreen::initializeGL()" << std::endl;
 
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // Configure additive blending
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     glEnable(GL_BLEND);
     glEnable(GL_CULL_FACE);
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
@@ -179,6 +180,9 @@ void ConanScreen::drawVoxels() {
 
     Conan::Volume const & vol = *volume;
 
+    // Voxel scaling factor, to avoid saturation
+    cl_float const factor = 2.f / voxels;
+
     for (int z = 0; z < voxels; z++) {
         for (int y = 0; y < voxels; y++) {
             for (int x = 0; x < voxels; x++) {
@@ -189,9 +193,9 @@ void ConanScreen::drawVoxels() {
                     continue;
 
                 // Draw voxel cube
-                // Voxel value becomes gray level
+                // Voxel value becomes alpha
                 glPushMatrix();
-                glColor3f(vox, vox, vox);
+                glColor4f(1, 1, 1, vox * factor);
                 glTranslated(0.5 + x, 0.5 + y, 0.5 + z);
                 glutSolidCube(1);
                 glPopMatrix();
