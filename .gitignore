@@ -1,4 +1,7 @@
 *.pro.user
 Makefile
 lib*so*
+*.o
+moc_*
+ui_*
 
