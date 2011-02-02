@@ -23,13 +23,27 @@
 class ConanScreen : public QGLWidget
 {
     Q_OBJECT
+
 public:
+
     explicit ConanScreen(QWidget *parent = 0);
+    virtual ~ConanScreen();
 
 signals:
 
 public slots:
 
+protected:
+
+    virtual void initializeGL();
+    virtual void paintGL();
+    virtual void resizeGL(int width, int height);
+
+    virtual void drawPlaneX();
+    virtual void drawPlaneY();
+    virtual void drawPlaneZ();
+
+    qreal aspect;
 };
 
 #endif // CONANSCREEN_HH
