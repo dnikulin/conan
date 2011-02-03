@@ -45,6 +45,7 @@ protected:
     virtual void drawPlaneX();
     virtual void drawPlaneY();
     virtual void drawPlaneZ();
+    virtual void drawSpin();
 
     virtual void prepareList();
     virtual void drawVoxels();

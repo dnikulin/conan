@@ -83,6 +83,7 @@ void ConanScreen::paintGL() {
     drawPlaneX();
     drawPlaneY();
     drawPlaneZ();
+    drawSpin();
     rulePlanesBezel();
 
     glFlush();
@@ -142,9 +143,38 @@ void ConanScreen::drawPlaneZ() {
     // Viewport to bottom-left of screen
     glViewport(0, 0, width / 2, height / 2);
 
-    glPushMatrix();
     glCallList(volumeList);
-    glPopMatrix();
+}
+
+void ConanScreen::drawSpin() {
+    std::cerr << "ConanScreen::drawSpin()" << std::endl;
+
+    qreal const width = screenSize.x();
+    qreal const height = screenSize.y();
+    if (height < 1)
+        return;
+
+    qreal const aspect = width / height;
+
+    // Viewport to top-right of screen
+    glViewport(width / 2, height / 2, width / 2, height / 2);
+
+    // Assign perspective projection matrix
+    int const voxels = volume->columns();
+    int const voxelsh = voxels / 2;
+    int const voxels15 = voxels + voxelsh;
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(90, aspect, 0, voxels * 4);
+
+    // Assign model-view matrix
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(voxels15, voxels15, voxels15,
+              voxelsh, voxelsh, voxelsh,
+              0, 1, 0);
+
+    glCallList(volumeList);
 }
 
 void ConanScreen::rulePlanesBezel() {
