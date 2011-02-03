@@ -204,15 +204,16 @@ void ConanScreen::drawVoxels() {
 
     int voxels = volume->columns();
 
-    Conan::Volume const & vol = *volume;
+    // Raw volume data in flat memory
+    cl_float const * const data = volume->data();
 
     // Voxel scaling factor, to avoid saturation
     cl_float const factor = 2.f / voxels;
 
-    for (int z = 0; z < voxels; z++) {
+    for (int z = 0, i = 0; z < voxels; z++) {
         for (int y = 0; y < voxels; y++) {
-            for (int x = 0; x < voxels; x++) {
-                cl_float const vox = vol(z, y, x);
+            for (int x = 0; x < voxels; x++, i++) {
+                cl_float const vox = data[i];
 
                 // Filter voxels by threshold
                 if (vox < 0.001f)
