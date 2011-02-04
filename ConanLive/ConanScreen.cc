@@ -68,22 +68,17 @@ void ConanScreen::paintGL() {
     if (volume == NULL)
         return;
 
-    // Assign orthographic projection matrix
-    int voxels = volume->columns();
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, voxels, 0, voxels, -voxels, voxels);
-
-    // Assign model-view matrix
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glTranslatef(0, 0, -voxels);
+    // Draw perspective pane
+    setPerspective();
+    drawSpin();
 
     // Draw individual plane panes
+    setOrthographic();
     drawPlaneX();
     drawPlaneY();
     drawPlaneZ();
-    drawSpin();
+
+    // Rule lines between panes
     rulePlanesBezel();
 
     glFlush();
@@ -100,10 +95,40 @@ void ConanScreen::resizeGL(int width, int height) {
     glViewport(0, 0, width, height);
 }
 
+void ConanScreen::setOrthographic() {
+    std::cerr << "ConanScreen::setOrthographic()" << std::endl;
+
+    // Assign orthographic projection matrix
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, 1, 0, 1, -2, 2);
+
+    // Assign model-view matrix
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glTranslatef(0, 0, -1);
+}
+
+void ConanScreen::setPerspective() {
+    std::cerr << "ConanScreen::setPerspective()" << std::endl;
+
+    // Assign perspective projection matrix
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(90, getAspect(), 0, 4);
+
+    // Assign model-view matrix
+    // Looks at center of volume from a distance
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(1.5, 1.5, 1.5,
+              0.5, 0.5, 0.5,
+              0.0, 1.0, 0.0);
+}
+
 void ConanScreen::drawPlaneX() {
     std::cerr << "ConanScreen::drawPlaneX()" << std::endl;
 
-    int voxels = volume->columns();
     int width = screenSize.x();
     int height = screenSize.y();
 
@@ -111,9 +136,9 @@ void ConanScreen::drawPlaneX() {
     glViewport(width / 2, 0, width / 2, height / 2);
 
     glPushMatrix();
-    glTranslatef(0, voxels, voxels);
+    glTranslatef(0, 1, 1);
     glRotatef(-90, 0, 1, 0);
-    glTranslatef(-voxels, -voxels, -voxels);
+    glTranslatef(-1, -1, -1);
     glCallList(volumeList);
     glPopMatrix();
 }
@@ -121,16 +146,16 @@ void ConanScreen::drawPlaneX() {
 void ConanScreen::drawPlaneY() {
     std::cerr << "ConanScreen::drawPlaneY()" << std::endl;
 
-    int voxels = volume->columns();
     int width = screenSize.x();
     int height = screenSize.y();
+
     // Viewport to top-left of screen
     glViewport(0, height / 2, width / 2, height / 2);
 
     glPushMatrix();
-    glTranslatef(voxels, 0, voxels);
+    glTranslatef(1, 0, 1);
     glRotatef(90, 1, 0, 0);
-    glTranslatef(-voxels, -voxels, -voxels);
+    glTranslatef(-1, -1, -1);
     glCallList(volumeList);
     glPopMatrix();
 }
@@ -149,30 +174,11 @@ void ConanScreen::drawPlaneZ() {
 void ConanScreen::drawSpin() {
     std::cerr << "ConanScreen::drawSpin()" << std::endl;
 
-    qreal const width = screenSize.x();
-    qreal const height = screenSize.y();
-    if (height < 1)
-        return;
-
-    qreal const aspect = width / height;
+    int width = screenSize.x();
+    int height = screenSize.y();
 
     // Viewport to top-right of screen
     glViewport(width / 2, height / 2, width / 2, height / 2);
-
-    // Assign perspective projection matrix
-    int const voxels = volume->columns();
-    int const voxelsh = voxels / 2;
-    int const voxels15 = voxels + voxelsh;
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(90, aspect, 0, voxels * 4);
-
-    // Assign model-view matrix
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt(voxels15, voxels15, voxels15,
-              voxelsh, voxelsh, voxelsh,
-              0, 1, 0);
 
     glCallList(volumeList);
 }
@@ -180,11 +186,10 @@ void ConanScreen::drawSpin() {
 void ConanScreen::rulePlanesBezel() {
     std::cerr << "ConanScreen::rulePlanesBezel()" << std::endl;
 
-    // Reset viewport and model-view matrix
+    // Viewport to full screen
     qreal width = screenSize.x();
     qreal height = screenSize.y();
     glViewport(0, 0, width, height);
-    glLoadIdentity();
 
     // First paint with thick black line
     glColor3f(0, 0, 0);
@@ -200,16 +205,15 @@ void ConanScreen::rulePlanesBezel() {
 void ConanScreen::rulePlanes() {
     std::cerr << "ConanScreen::rulePlanes()" << std::endl;
 
-    int voxels = volume->columns();
     glBegin(GL_LINES);
 
     // Vertical line
-    glVertex2d(voxels / 2, 0);
-    glVertex2d(voxels / 2, voxels);
+    glVertex2f(0.5f, 0.0f);
+    glVertex2f(0.5f, 1.0f);
 
     // Horizontal line
-    glVertex2d(0,          voxels / 2);
-    glVertex2d(voxels,     voxels / 2);
+    glVertex2f(0.0f, 0.5f);
+    glVertex2f(1.0f, 0.5f);
 
     glEnd();
 }
@@ -232,17 +236,26 @@ void ConanScreen::drawVoxels() {
     if (volume == NULL)
         return;
 
-    int voxels = volume->columns();
+    // Number of voxels along each axis
+    int const voxels = volume->columns();
+
+    // Reciprocal of voxels, for scaling coordinates
+    GLfloat const scale = 1.0f / voxels;
+
+    // Voxel value factor, to avoid alpha saturation
+    cl_float const factor = 2.0f / voxels;
 
     // Raw volume data in flat memory
     cl_float const * const data = volume->data();
 
-    // Voxel scaling factor, to avoid saturation
-    cl_float const factor = 2.f / voxels;
-
     for (int z = 0, i = 0; z < voxels; z++) {
+        GLfloat const zf = (0.5f + z) / voxels;
+
         for (int y = 0; y < voxels; y++) {
+            GLfloat const yf = (0.5f + y) / voxels;
+
             for (int x = 0; x < voxels; x++, i++) {
+                GLfloat const xf = (0.5f + x) / voxels;
                 cl_float const vox = data[i];
 
                 // Filter voxels by threshold
@@ -253,10 +266,19 @@ void ConanScreen::drawVoxels() {
                 // Voxel value becomes alpha
                 glPushMatrix();
                 glColor4f(1, 1, 1, vox * factor);
-                glTranslated(0.5 + x, 0.5 + y, 0.5 + z);
-                glutSolidCube(1);
+                glTranslatef(xf, yf, zf);
+                glutSolidCube(scale);
                 glPopMatrix();
             }
         }
     }
+}
+
+qreal ConanScreen::getAspect() const {
+    qreal const width = screenSize.x();
+    qreal const height = screenSize.y();
+    if (height < 1)
+        return 1;
+
+    return width / height;
 }

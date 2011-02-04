@@ -42,6 +42,9 @@ protected:
     virtual void paintGL();
     virtual void resizeGL(int width, int height);
 
+    virtual void setOrthographic();
+    virtual void setPerspective();
+
     virtual void drawPlaneX();
     virtual void drawPlaneY();
     virtual void drawPlaneZ();
@@ -52,6 +55,8 @@ protected:
 
     virtual void rulePlanesBezel();
     virtual void rulePlanes();
+
+    qreal getAspect() const;
 
     Conan::Volume const * volume;
 
