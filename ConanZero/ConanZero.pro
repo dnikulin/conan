@@ -6,7 +6,9 @@ TEMPLATE = lib
 DEFINES += CONANZERO_LIBRARY
 
 SOURCES +=                     \
+    Device.cc
 
 HEADERS +=                     \
     ConanZeroGlobal.hh         \
     ConanTypes.hh              \
+    Device.hh

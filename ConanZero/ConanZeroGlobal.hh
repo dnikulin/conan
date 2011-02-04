@@ -19,7 +19,7 @@
 #define CONANZERO_GLOBAL_HH
 
 // Use QtCore types.
-#include <QtCore/QtGlobal>
+#include <QtCore/QObject>
 
 // Use official OpenCL C++ wrapper with exceptions enabled.
 // When QtOpenCL is officially released, Conan will
@@ -29,6 +29,9 @@
 
 // Use Blitz C++ for numeric arrays.
 #include <blitz/array.h>
+
+// Use misc Boost headers.
+#include <boost/noncopyable.hpp>
 
 // Declare macro for symbol import/export.
 #if defined(CONANZERO_LIBRARY)
