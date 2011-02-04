@@ -22,6 +22,7 @@ SOURCES +=                     \
     main.cc                    \
     ConanWindow.cc             \
     ConanScreen.cc             \
+    ConanScreen-Rotate.cc      \
 
 HEADERS +=                     \
     ConanWindow.hh             \

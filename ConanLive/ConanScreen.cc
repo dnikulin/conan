@@ -19,6 +19,7 @@
 
 #include <GL/glut.h>
 
+#include <cmath>
 #include <iostream>
 
 ConanScreen::ConanScreen(QWidget *parent) : QGLWidget(parent) {
@@ -26,6 +27,8 @@ ConanScreen::ConanScreen(QWidget *parent) : QGLWidget(parent) {
 
     volume = NULL;
     volumeList = 0;
+
+    rotation.x = rotation.y = 0;
 }
 
 ConanScreen::~ConanScreen() {
@@ -121,9 +124,12 @@ void ConanScreen::setPerspective() {
     // Looks at center of volume from a distance
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(1.5, 1.5, 1.5,
+    gluLookAt(0.5, 0.5, 1.5,
               0.5, 0.5, 0.5,
               0.0, 1.0, 0.0);
+
+    // Apply mouse-controlled rotation
+    applyRotation();
 }
 
 void ConanScreen::drawPlaneX() {

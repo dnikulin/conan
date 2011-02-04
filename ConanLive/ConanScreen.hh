@@ -56,11 +56,18 @@ protected:
     virtual void rulePlanesBezel();
     virtual void rulePlanes();
 
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void applyRotation();
+
     qreal getAspect() const;
 
     Conan::Volume const * volume;
 
     QPoint screenSize;
+    QPoint mousePoint;
+
+    cl_float2 rotation;
 
     GLuint volumeList;
 };
