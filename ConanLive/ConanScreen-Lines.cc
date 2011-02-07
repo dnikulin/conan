@@ -17,8 +17,6 @@
 
 #include "ConanScreen.hh"
 
-#include <iostream>
-
 void ConanScreen::ruleAxes() {
     // Disable blending to over-draw lines
     glDisable(GL_BLEND);
@@ -47,8 +45,6 @@ void ConanScreen::ruleAxes() {
 }
 
 void ConanScreen::rulePlanesBezel() {
-    std::cerr << "ConanScreen::rulePlanesBezel()" << std::endl;
-
     // Disable blending to over-draw lines
     glDisable(GL_BLEND);
 
@@ -69,8 +65,6 @@ void ConanScreen::rulePlanesBezel() {
 }
 
 void ConanScreen::rulePlanes() {
-    std::cerr << "ConanScreen::rulePlanes()" << std::endl;
-
     glBegin(GL_LINES);
 
     // Vertical line

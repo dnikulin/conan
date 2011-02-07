@@ -17,11 +17,7 @@
 
 #include "ConanScreen.hh"
 
-#include <iostream>
-
 void ConanScreen::makeGeometry() {
-    std::cerr << "ConanScreen::makeGeometry()" << std::endl;
-
     if (volume == NULL)
         return;
 
@@ -110,8 +106,6 @@ void ConanScreen::makeGeometry() {
 }
 
 void ConanScreen::makeTextures() {
-    std::cerr << "ConanScreen::makeTextures()" << std::endl;
-
     if (volume == NULL)
         return;
 

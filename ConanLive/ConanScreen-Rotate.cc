@@ -19,8 +19,6 @@
 
 #include <QMouseEvent>
 
-#include <iostream>
-
 static qreal anorm(qreal iangle) {
     qreal angle = iangle;
     while (angle <   0) angle += 360;
@@ -33,14 +31,10 @@ static qreal d2r(qreal deg) {
 }
 
 void ConanScreen::mousePressEvent(QMouseEvent *event) {
-    std::cerr << "ConanScreen::mousePressEvent()" << std::endl;
-
     mousePoint = event->pos();
 }
 
 void ConanScreen::mouseMoveEvent(QMouseEvent *event) {
-    std::cerr << "ConanScreen::mouseMoveEvent()" << std::endl;
-
     if (event->buttons() & Qt::LeftButton) {
         // Window dimensions
         qreal const nx = screenSize.x();
@@ -64,8 +58,6 @@ void ConanScreen::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void ConanScreen::applyRotation() {
-    std::cerr << "ConanScreen::applyRotation()" << std::endl;
-
     // Move model back to world origin
     glTranslatef(+0.5f, +0.5f, +0.5f);
 

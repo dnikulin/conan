@@ -23,14 +23,10 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-#include <iostream>
-
 ConanWindow::ConanWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ConanWindow)
 {
-
-    std::cerr << "ConanWindow::ConanWindow()" << std::endl;
 
     ui->setupUi(this);
 
@@ -56,14 +52,10 @@ ConanWindow::ConanWindow(QWidget *parent) :
 }
 
 ConanWindow::~ConanWindow() {
-    std::cerr << "ConanWindow::~ConanWindow()" << std::endl;
-
     delete ui;
 }
 
 void ConanWindow::clickedOpenTextFile() {
-    std::cerr << "ConanWindow::clickedOpenTextFile()" << std::endl;
-
     QString path = QFileDialog::getOpenFileName(this,
             "Open text data file", "", "*.txt");
 

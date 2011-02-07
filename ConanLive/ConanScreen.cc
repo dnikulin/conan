@@ -17,11 +17,7 @@
 
 #include "ConanScreen.hh"
 
-#include <iostream>
-
 ConanScreen::ConanScreen(QWidget *parent) : QGLWidget(parent) {
-    std::cerr << "ConanScreen::ConanScreen()" << std::endl;
-
     volume = NULL;
     volumeList = 0;
 
@@ -29,12 +25,9 @@ ConanScreen::ConanScreen(QWidget *parent) : QGLWidget(parent) {
 }
 
 ConanScreen::~ConanScreen() {
-    std::cerr << "ConanScreen::~ConanScreen()" << std::endl;
 }
 
 void ConanScreen::setVolume(Conan::Volume const * volume) {
-    std::cerr << "ConanScreen::setVolume()" << std::endl;
-
     this->volume = volume;
 
     makeTextures();
@@ -43,8 +36,6 @@ void ConanScreen::setVolume(Conan::Volume const * volume) {
 }
 
 void ConanScreen::initializeGL() {
-    std::cerr << "ConanScreen::initializeGL()" << std::endl;
-
     // Configure additive blending
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     glEnable(GL_BLEND);
@@ -59,8 +50,6 @@ void ConanScreen::initializeGL() {
 }
 
 void ConanScreen::paintGL() {
-    std::cerr << "ConanScreen::paintGL()" << std::endl;
-
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
@@ -87,9 +76,6 @@ void ConanScreen::paintGL() {
 }
 
 void ConanScreen::resizeGL(int width, int height) {
-    std::cerr << "ConanScreen::resizeGL("
-            << width << ", " << height << ")" << std::endl;
-
     screenSize.setX(width);
     screenSize.setY(height);
 

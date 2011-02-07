@@ -17,11 +17,7 @@
 
 #include "ConanScreen.hh"
 
-#include <iostream>
-
 void ConanScreen::setOrthographic() {
-    std::cerr << "ConanScreen::setOrthographic()" << std::endl;
-
     // Assign orthographic projection matrix
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -34,8 +30,6 @@ void ConanScreen::setOrthographic() {
 }
 
 void ConanScreen::setPerspective() {
-    std::cerr << "ConanScreen::setPerspective()" << std::endl;
-
     // Assign perspective projection matrix
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -54,8 +48,6 @@ void ConanScreen::setPerspective() {
 }
 
 void ConanScreen::drawPlaneX() {
-    std::cerr << "ConanScreen::drawPlaneX()" << std::endl;
-
     int width = screenSize.x();
     int height = screenSize.y();
 
@@ -71,8 +63,6 @@ void ConanScreen::drawPlaneX() {
 }
 
 void ConanScreen::drawPlaneY() {
-    std::cerr << "ConanScreen::drawPlaneY()" << std::endl;
-
     int width = screenSize.x();
     int height = screenSize.y();
 
@@ -88,8 +78,6 @@ void ConanScreen::drawPlaneY() {
 }
 
 void ConanScreen::drawPlaneZ() {
-    std::cerr << "ConanScreen::drawPlaneZ()" << std::endl;
-
     int width = screenSize.x();
     int height = screenSize.y();
     // Viewport to bottom-left of screen
@@ -99,8 +87,6 @@ void ConanScreen::drawPlaneZ() {
 }
 
 void ConanScreen::drawSpin() {
-    std::cerr << "ConanScreen::drawSpin()" << std::endl;
-
     int width = screenSize.x();
     int height = screenSize.y();
 
