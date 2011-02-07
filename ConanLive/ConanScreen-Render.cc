@@ -16,6 +16,7 @@
 // along with Conan.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ConanScreen.hh"
+#include "Math.hh"
 
 void ConanScreen::makeGeometry() {
     if (volume == NULL)
@@ -106,10 +107,26 @@ void ConanScreen::makeTextures() {
     if (volume == NULL)
         return;
 
-    Conan::Volume const & vol = *volume;
-    GLuint const voxels = vol.columns();
+    GLuint const voxels = volume->columns();
     GLuint const nslices = voxels * 3;
-    cl_float const factor = 2.0f / voxels;
+
+    Conan::Volume vol(voxels, voxels, voxels);
+    vol = *volume;
+    Conan::normalise(vol);
+
+    if (drawLogarithmic) {
+        vol *= 1e9;
+        vol += 1;
+        vol = blitz::log(vol);
+        Conan::normalise(vol);
+    }
+
+    if (drawQuadratic) {
+        vol = (vol * vol);
+        Conan::normalise(vol);
+    }
+
+    vol *= (2.0f / voxels);
 
     // Free existing textures
     if (textureList.isEmpty() == false) {
@@ -134,8 +151,6 @@ void ConanScreen::makeTextures() {
             case 1: slice = vol(all, nslice, all).transpose(1, 0); break;
             case 2: slice = vol(all, all, nslice).transpose(1, 0); break;
             }
-
-            slice *= factor;
 
             // Select texture
             glBindTexture(GL_TEXTURE_2D, textureList.at(index));

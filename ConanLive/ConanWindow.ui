@@ -54,6 +54,9 @@
      <string>&amp;View</string>
     </property>
     <addaction name="actionDraw_individual_planes"/>
+    <addaction name="separator"/>
+    <addaction name="actionLogarithmic_scale"/>
+    <addaction name="actionQuadratic_scale"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_View"/>
@@ -85,6 +88,22 @@
     <string>Draw individual &amp;planes</string>
    </property>
   </action>
+  <action name="actionLogarithmic_scale">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Logarithmic scale</string>
+   </property>
+  </action>
+  <action name="actionQuadratic_scale">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Quadratic scale</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -95,6 +114,8 @@
    <container>1</container>
    <slots>
     <slot>setDrawPlanes(bool)</slot>
+    <slot>setDrawLogarithmic(bool)</slot>
+    <slot>setDrawQuadratic(bool)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -145,6 +166,70 @@
     <hint type="destinationlabel">
      <x>299</x>
      <y>307</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionLogarithmic_scale</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>actionQuadratic_scale</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionQuadratic_scale</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>actionLogarithmic_scale</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionLogarithmic_scale</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>screen</receiver>
+   <slot>setDrawLogarithmic(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionQuadratic_scale</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>screen</receiver>
+   <slot>setDrawQuadratic(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
     </hint>
    </hints>
   </connection>

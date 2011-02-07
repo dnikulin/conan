@@ -36,6 +36,8 @@ public slots:
 
     void setVolume(Conan::Volume const * volume);
     void setDrawPlanes(bool drawPlanes);
+    void setDrawLogarithmic(bool drawLogarithmic);
+    void setDrawQuadratic(bool drawQuadratic);
 
 protected:
 
@@ -66,6 +68,8 @@ protected:
 
     Conan::Volume const * volume;
     bool drawPlanes;
+    bool drawLogarithmic;
+    bool drawQuadratic;
 
     QPoint screenSize;
     QPoint mousePoint;

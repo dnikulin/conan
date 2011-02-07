@@ -21,6 +21,10 @@ ConanScreen::ConanScreen(QWidget *parent) : QGLWidget(parent) {
     volume = NULL;
     volumeList = 0;
 
+    drawPlanes = false;
+    drawLogarithmic = false;
+    drawQuadratic = false;
+
     rotation.x = rotation.y = 0;
 }
 
@@ -37,6 +41,18 @@ void ConanScreen::setVolume(Conan::Volume const * volume) {
 
 void ConanScreen::setDrawPlanes(bool drawPlanes) {
     this->drawPlanes = drawPlanes;
+    repaint();
+}
+
+void ConanScreen::setDrawLogarithmic(bool drawLogarithmic) {
+    this->drawLogarithmic = drawLogarithmic;
+    makeTextures();
+    repaint();
+}
+
+void ConanScreen::setDrawQuadratic(bool drawQuadratic) {
+    this->drawQuadratic = drawQuadratic;
+    makeTextures();
     repaint();
 }
 

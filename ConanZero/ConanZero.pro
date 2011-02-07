@@ -12,6 +12,7 @@ HEADERS +=                     \
     ConanZeroGlobal.hh         \
     ConanTypes.hh              \
     Device.hh                  \
+    Math.hh                    \
 
 LIBS +=                        \
     -lOpenCL                   \
