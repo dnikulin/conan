@@ -74,8 +74,8 @@ void ConanScreen::applyRotation() {
 
     // Adjust X axis based on horizontal angle
     qreal const xr = d2r(rotation.x);
-    qreal const ax = ::cos(xr);
-    qreal const az = ::sin(xr);
+    qreal const ax = std::cos(xr);
+    qreal const az = std::sin(xr);
 
     // Rotate around adjusted X axis, using vertical angle
     glRotatef(rotation.y, ax, 0, az);
