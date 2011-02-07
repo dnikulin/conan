@@ -53,6 +53,7 @@ void ConanScreen::drawPlaneX() {
 
     // Viewport to bottom-right of screen
     glViewport(width / 2, 0, width / 2, height / 2);
+    applyForeColour();
 
     glPushMatrix();
     glTranslatef(0, 1, 1);
@@ -68,6 +69,7 @@ void ConanScreen::drawPlaneY() {
 
     // Viewport to top-left of screen
     glViewport(0, height / 2, width / 2, height / 2);
+    applyForeColour();
 
     glPushMatrix();
     glTranslatef(1, 0, 1);
@@ -80,8 +82,10 @@ void ConanScreen::drawPlaneY() {
 void ConanScreen::drawPlaneZ() {
     int width = screenSize.x();
     int height = screenSize.y();
+
     // Viewport to bottom-left of screen
     glViewport(0, 0, width / 2, height / 2);
+    applyForeColour();
 
     glCallList(volumeList);
 }
@@ -96,5 +100,7 @@ void ConanScreen::drawSpin() {
     }
 
     ruleAxes();
+
+    applyForeColour();
     glCallList(volumeList);
 }

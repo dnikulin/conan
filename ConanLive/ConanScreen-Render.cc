@@ -34,7 +34,6 @@ void ConanScreen::makeGeometry() {
     glEnable(GL_BLEND);
     glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH);
-    glColor4f(1, 1, 1, 1);
 
     // Scale to normalised coordinates
     GLfloat const scale = 1.0f / voxels;

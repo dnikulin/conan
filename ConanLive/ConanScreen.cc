@@ -24,6 +24,7 @@ ConanScreen::ConanScreen(QWidget *parent) : QGLWidget(parent) {
     drawPlanes = false;
     drawLogarithmic = false;
     drawQuadratic = false;
+    drawWhite = false;
 
     rotation.x = rotation.y = 0;
 }
@@ -56,14 +57,20 @@ void ConanScreen::setDrawQuadratic(bool drawQuadratic) {
     repaint();
 }
 
+void ConanScreen::setDrawWhite(bool drawWhite) {
+    this->drawWhite = drawWhite;
+    repaint();
+}
+
 void ConanScreen::initializeGL() {
     // Configure additive blending
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     glEnable(GL_TEXTURE_2D);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH);
 
-    glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    applyBackColour();
 
     // Prepare existing volume if any
     makeTextures();
@@ -74,8 +81,7 @@ void ConanScreen::paintGL() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    applyBackColour();
 
     if (volume == NULL)
         return;
@@ -113,4 +119,15 @@ qreal ConanScreen::getAspect() const {
         return 1;
 
     return width / height;
+}
+
+void ConanScreen::applyBackColour() {
+    GLfloat v = (drawWhite ? 0 : 1);
+    glClearColor(v, v, v, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void ConanScreen::applyForeColour() {
+    GLfloat v = (drawWhite ? 1 : 0);
+    glColor4f(v, v, v, 1);
 }

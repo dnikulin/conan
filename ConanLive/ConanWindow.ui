@@ -54,6 +54,7 @@
      <string>&amp;View</string>
     </property>
     <addaction name="actionDraw_individual_planes"/>
+    <addaction name="actionWhite_on_black"/>
     <addaction name="separator"/>
     <addaction name="actionLogarithmic_scale"/>
     <addaction name="actionQuadratic_scale"/>
@@ -104,6 +105,14 @@
     <string>&amp;Quadratic scale</string>
    </property>
   </action>
+  <action name="actionWhite_on_black">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;White on black</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -116,6 +125,7 @@
     <slot>setDrawPlanes(bool)</slot>
     <slot>setDrawLogarithmic(bool)</slot>
     <slot>setDrawQuadratic(bool)</slot>
+    <slot>setDrawWhite(bool)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -230,6 +240,22 @@
     <hint type="destinationlabel">
      <x>-1</x>
      <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionWhite_on_black</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>screen</receiver>
+   <slot>setDrawWhite(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>307</y>
     </hint>
    </hints>
   </connection>

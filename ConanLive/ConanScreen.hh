@@ -38,6 +38,7 @@ public slots:
     void setDrawPlanes(bool drawPlanes);
     void setDrawLogarithmic(bool drawLogarithmic);
     void setDrawQuadratic(bool drawQuadratic);
+    void setDrawWhite(bool drawWhite);
 
 protected:
 
@@ -47,6 +48,8 @@ protected:
 
     virtual void setOrthographic();
     virtual void setPerspective();
+    virtual void applyBackColour();
+    virtual void applyForeColour();
 
     virtual void drawPlaneX();
     virtual void drawPlaneY();
@@ -70,6 +73,7 @@ protected:
     bool drawPlanes;
     bool drawLogarithmic;
     bool drawQuadratic;
+    bool drawWhite;
 
     QPoint screenSize;
     QPoint mousePoint;
