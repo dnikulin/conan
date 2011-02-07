@@ -47,6 +47,7 @@
      <string>&amp;File</string>
     </property>
     <addaction name="actionOpen_text_file"/>
+    <addaction name="actionExit"/>
    </widget>
    <addaction name="menu_File"/>
   </widget>
@@ -62,6 +63,11 @@
   <action name="actionOpen_text_file">
    <property name="text">
     <string>Open &amp;text file...</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>E&amp;xit</string>
    </property>
   </action>
  </widget>
@@ -81,6 +87,22 @@
    <signal>activated()</signal>
    <receiver>ConanWindow</receiver>
    <slot>clickedOpenTextFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionExit</sender>
+   <signal>activated()</signal>
+   <receiver>ConanWindow</receiver>
+   <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
