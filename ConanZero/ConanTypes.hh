@@ -23,7 +23,10 @@
 namespace Conan {
 
 // 3D volume array of native OpenCL float type (32-bit).
-typedef blitz::Array<cl_float, 3> Volume;
+typedef blitz::Array<cl_float,          3> Volume;
+
+// 2D volume array of same type.
+typedef blitz::Array<Volume::T_numtype, 2> Slice;
 
 }
 

@@ -19,8 +19,6 @@
 
 #include <QMouseEvent>
 
-#include <GL/glut.h>
-
 #include <iostream>
 
 static qreal anorm(qreal iangle) {

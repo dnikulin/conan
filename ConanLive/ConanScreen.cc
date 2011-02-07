@@ -40,7 +40,8 @@ void ConanScreen::setVolume(Conan::Volume const * volume) {
 
     this->volume = volume;
 
-    prepareList();
+    makeTextures();
+    makeGeometry();
     repaint();
 }
 
@@ -50,13 +51,14 @@ void ConanScreen::initializeGL() {
     // Configure additive blending
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     glEnable(GL_BLEND);
-    glEnable(GL_CULL_FACE);
+    glEnable(GL_TEXTURE_2D);
 
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Prepare existing volume if any
-    prepareList();
+    makeTextures();
+    makeGeometry();
 }
 
 void ConanScreen::paintGL() {
@@ -222,62 +224,6 @@ void ConanScreen::rulePlanes() {
     glVertex2f(1.0f, 0.5f);
 
     glEnd();
-}
-
-void ConanScreen::prepareList() {
-    std::cerr << "ConanScreen::prepareList()" << std::endl;
-
-    // Allocate list if unavailable
-    if (volumeList == 0)
-        volumeList = glGenLists(1);
-
-    glNewList(volumeList, GL_COMPILE);
-    drawVoxels();
-    glEndList();
-}
-
-void ConanScreen::drawVoxels() {
-    std::cerr << "ConanScreen::drawVoxels()" << std::endl;
-
-    if (volume == NULL)
-        return;
-
-    // Number of voxels along each axis
-    int const voxels = volume->columns();
-
-    // Reciprocal of voxels, for scaling coordinates
-    GLfloat const scale = 1.0f / voxels;
-
-    // Voxel value factor, to avoid alpha saturation
-    cl_float const factor = 2.0f / voxels;
-
-    // Raw volume data in flat memory
-    cl_float const * const data = volume->data();
-
-    for (int z = 0, i = 0; z < voxels; z++) {
-        GLfloat const zf = (0.5f + z) / voxels;
-
-        for (int y = 0; y < voxels; y++) {
-            GLfloat const yf = (0.5f + y) / voxels;
-
-            for (int x = 0; x < voxels; x++, i++) {
-                GLfloat const xf = (0.5f + x) / voxels;
-                cl_float const vox = data[i];
-
-                // Filter voxels by threshold
-                if (vox < 0.001f)
-                    continue;
-
-                // Draw voxel cube
-                // Voxel value becomes alpha
-                glPushMatrix();
-                glColor4f(1, 1, 1, vox * factor);
-                glTranslatef(xf, yf, zf);
-                glutSolidCube(scale);
-                glPopMatrix();
-            }
-        }
-    }
 }
 
 qreal ConanScreen::getAspect() const {

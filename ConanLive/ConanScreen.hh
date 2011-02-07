@@ -50,9 +50,6 @@ protected:
     virtual void drawPlaneZ();
     virtual void drawSpin();
 
-    virtual void prepareList();
-    virtual void drawVoxels();
-
     virtual void rulePlanesBezel();
     virtual void rulePlanes();
 
@@ -62,6 +59,9 @@ protected:
 
     qreal getAspect() const;
 
+    virtual void makeGeometry();
+    virtual void makeTextures();
+
     Conan::Volume const * volume;
 
     QPoint screenSize;
@@ -70,6 +70,7 @@ protected:
     cl_float2 rotation;
 
     GLuint volumeList;
+    QVector<GLuint> textureList;
 };
 
 #endif // CONANSCREEN_HH
