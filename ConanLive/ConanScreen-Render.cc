@@ -24,9 +24,6 @@ void ConanScreen::makeGeometry() {
     // Number of voxels along each axis
     GLuint const voxels = volume->columns();
 
-    // Total number of slice quads to render
-    GLuint const nslices = voxels * 3;
-
     // Allocate list if unavailable
     if (volumeList == 0)
         volumeList = glGenLists(1);
