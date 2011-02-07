@@ -33,13 +33,13 @@ void ConanScreen::setPerspective() {
     // Assign perspective projection matrix
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(90, getAspect(), 0, 4);
+    gluPerspective(75, getAspect(), 0, 4);
 
     // Assign model-view matrix
     // Looks at center of volume from a distance
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0.5, 0.5, 1.5,
+    gluLookAt(0.5, 0.5, 2.0,
               0.5, 0.5, 0.5,
               0.0, 1.0, 0.0);
 
