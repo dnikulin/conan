@@ -17,8 +17,6 @@
 
 #include "ConanScreen.hh"
 
-#include <GL/glut.h>
-
 #include <cmath>
 #include <iostream>
 
@@ -190,71 +188,6 @@ void ConanScreen::drawSpin() {
 
     ruleAxes();
     glCallList(volumeList);
-}
-
-void ConanScreen::ruleAxes() {
-    // Disable blending to over-draw lines
-    glDisable(GL_BLEND);
-    glBegin(GL_LINES);
-    glLineWidth(1);
-
-    // From origin
-    glColor4f(1, 0, 0, 1);
-    glVertex3i(0, 0, 0);
-    glVertex3i(1, 0, 0);
-    glVertex3i(0, 0, 0);
-    glVertex3i(0, 1, 0);
-    glVertex3i(0, 0, 0);
-    glVertex3i(0, 0, 1);
-
-    // From far corner
-    glColor4f(0, 0, 1, 1);
-    glVertex3i(1, 1, 1);
-    glVertex3i(0, 1, 1);
-    glVertex3i(1, 1, 1);
-    glVertex3i(1, 0, 1);
-    glVertex3i(1, 1, 1);
-    glVertex3i(1, 1, 0);
-
-    glEnd();
-}
-
-void ConanScreen::rulePlanesBezel() {
-    std::cerr << "ConanScreen::rulePlanesBezel()" << std::endl;
-
-    // Disable blending to over-draw lines
-    glDisable(GL_BLEND);
-
-    // Viewport to full screen
-    qreal width = screenSize.x();
-    qreal height = screenSize.y();
-    glViewport(0, 0, width, height);
-
-    // First paint with thick black line
-    glColor4f(0, 0, 0, 1);
-    glLineWidth(3);
-    rulePlanes();
-
-    // Then paint with thin white line
-    glColor4f(1, 1, 1, 1);
-    glLineWidth(1);
-    rulePlanes();
-}
-
-void ConanScreen::rulePlanes() {
-    std::cerr << "ConanScreen::rulePlanes()" << std::endl;
-
-    glBegin(GL_LINES);
-
-    // Vertical line
-    glVertex2f(0.5f, 0.0f);
-    glVertex2f(0.5f, 1.0f);
-
-    // Horizontal line
-    glVertex2f(0.0f, 0.5f);
-    glVertex2f(1.0f, 0.5f);
-
-    glEnd();
 }
 
 qreal ConanScreen::getAspect() const {

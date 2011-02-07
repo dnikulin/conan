@@ -22,6 +22,7 @@ SOURCES +=                     \
     main.cc                    \
     ConanWindow.cc             \
     ConanScreen.cc             \
+    ConanScreen-Lines.cc       \
     ConanScreen-Render.cc      \
     ConanScreen-Rotate.cc      \
 
