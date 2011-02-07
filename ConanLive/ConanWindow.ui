@@ -49,7 +49,14 @@
     <addaction name="actionOpen_text_file"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menu_View">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="actionDraw_individual_planes"/>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menu_View"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -70,6 +77,14 @@
     <string>E&amp;xit</string>
    </property>
   </action>
+  <action name="actionDraw_individual_planes">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Draw individual &amp;planes</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -78,6 +93,9 @@
    <extends>QWidget</extends>
    <header>ConanScreen.hh</header>
    <container>1</container>
+   <slots>
+    <slot>setDrawPlanes(bool)</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -111,6 +129,22 @@
     <hint type="destinationlabel">
      <x>299</x>
      <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDraw_individual_planes</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>screen</receiver>
+   <slot>setDrawPlanes(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>307</y>
     </hint>
    </hints>
   </connection>

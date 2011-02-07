@@ -35,6 +35,7 @@ signals:
 public slots:
 
     void setVolume(Conan::Volume const * volume);
+    void setDrawPlanes(bool drawPlanes);
 
 protected:
 
@@ -64,6 +65,7 @@ protected:
     virtual void makeTextures();
 
     Conan::Volume const * volume;
+    bool drawPlanes;
 
     QPoint screenSize;
     QPoint mousePoint;

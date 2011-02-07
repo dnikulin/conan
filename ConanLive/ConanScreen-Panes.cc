@@ -90,8 +90,10 @@ void ConanScreen::drawSpin() {
     int width = screenSize.x();
     int height = screenSize.y();
 
-    // Viewport to top-right of screen
-    glViewport(width / 2, height / 2, width / 2, height / 2);
+    if (drawPlanes) {
+        // Viewport to top-right of screen
+        glViewport(width / 2, height / 2, width / 2, height / 2);
+    }
 
     ruleAxes();
     glCallList(volumeList);

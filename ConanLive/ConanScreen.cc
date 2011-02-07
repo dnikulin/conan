@@ -35,6 +35,11 @@ void ConanScreen::setVolume(Conan::Volume const * volume) {
     repaint();
 }
 
+void ConanScreen::setDrawPlanes(bool drawPlanes) {
+    this->drawPlanes = drawPlanes;
+    repaint();
+}
+
 void ConanScreen::initializeGL() {
     // Configure additive blending
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -64,13 +69,15 @@ void ConanScreen::paintGL() {
     drawSpin();
 
     // Draw individual plane panes
-    setOrthographic();
-    drawPlaneX();
-    drawPlaneY();
-    drawPlaneZ();
+    if (drawPlanes) {
+        setOrthographic();
+        drawPlaneX();
+        drawPlaneY();
+        drawPlaneZ();
 
-    // Rule lines between panes
-    rulePlanesBezel();
+        // Rule lines between panes
+        rulePlanesBezel();
+    }
 
     glFlush();
 }
