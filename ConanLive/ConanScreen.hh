@@ -49,6 +49,7 @@ protected:
     virtual void drawPlaneY();
     virtual void drawPlaneZ();
     virtual void drawSpin();
+    virtual void ruleAxes();
 
     virtual void rulePlanesBezel();
     virtual void rulePlanes();
