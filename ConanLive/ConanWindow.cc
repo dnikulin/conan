@@ -46,6 +46,9 @@ ConanWindow::ConanWindow(QWidget *parent) :
         SLOT(setVolume(Conan::Volume const *))
     );
 
+    // Load plugins now
+    loadPlugins();
+
     // Generate mock volume
     int const width = 8;
     volume.resize(width, width, width);
@@ -66,11 +69,18 @@ ConanWindow::~ConanWindow() {
 }
 
 void ConanWindow::loadPlugins() {
-    QDir appRoot(qApp->applicationDirPath());
-    QDir root = appRoot.filePath("Plugins");
+    // Start from binary directory
+    QDir root(qApp->applicationDirPath());
+
+    // Move up to root directory
+    root.cdUp();
+
+    // Move down to Plugins directory
+    root.cd("Plugins");
 
     foreach (QString name, root.entryList(QDir::Files)) {
-        QPluginLoader loader(root.absoluteFilePath(name));
+        QString path(root.absoluteFilePath(name));
+        QPluginLoader loader(path);
         QObject *object = loader.instance();
         if (object != NULL)
             loadPlugin(object);

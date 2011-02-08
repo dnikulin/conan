@@ -16,7 +16,6 @@ LIBS +=                        \
     -L../ConanFile/            \
     -lConanZero                \
     -lConanFile                \
-    -lglut                     \
 
 SOURCES +=                     \
     main.cc                    \
