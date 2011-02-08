@@ -38,6 +38,15 @@ public:
     virtual ~ConanMock();
 
     virtual void installPlugin(ConanWindow * window);
+
+public slots:
+
+    void clickedGenerateData();
+
+protected:
+
+    // TODO: Create separate state per installPlugin()
+    ConanWindow * window;
 };
 
 #endif // CONAN_MOCK_HH

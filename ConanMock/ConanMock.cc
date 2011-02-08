@@ -26,11 +26,15 @@
 #include "ConanMock.hh"
 #include "MockDialog.hh"
 
+#include <QApplication>
+#include <QMenuBar>
+
 #include <iostream>
 
 Q_EXPORT_PLUGIN2(conan_mock_plugin, ConanMock);
 
 ConanMock::ConanMock() {
+    window = NULL;
 }
 
 ConanMock::~ConanMock() {
@@ -38,4 +42,30 @@ ConanMock::~ConanMock() {
 
 void ConanMock::installPlugin(ConanWindow * window) {
     std::cerr << "ConanMock::installPlugin()" << std::endl;
+
+    this->window = window;
+
+    QMenuBar *menuBar = window->menuBar();
+
+    QMenu *menu = new QMenu(menuBar);
+    menu->setObjectName(QString::fromUtf8("menu_Mock"));
+    menu->setTitle(QApplication::translate("ConanMock", "&Mock", 0, QApplication::UnicodeUTF8));
+
+    QAction *actionGenerate = new QAction(window);
+    actionGenerate->setObjectName(QString::fromUtf8("actionGenerate"));
+    actionGenerate->setText(QApplication::translate("ConanMock", "&Generate volume...", 0, QApplication::UnicodeUTF8));
+
+    QObject::connect(actionGenerate, SIGNAL(activated()),
+                     this, SLOT(clickedGenerateData()));
+
+    menu->addAction(actionGenerate);
+    menuBar->addMenu(menu);
+}
+
+void ConanMock::clickedGenerateData() {
+    if (window == NULL)
+        return;
+
+    MockDialog *dialog = new MockDialog(window);
+    dialog->setVisible(true);
 }
