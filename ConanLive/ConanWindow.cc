@@ -66,7 +66,8 @@ ConanWindow::~ConanWindow() {
 }
 
 void ConanWindow::loadPlugins() {
-    QDir root(qApp->applicationDirPath());
+    QDir appRoot(qApp->applicationDirPath());
+    QDir root = appRoot.filePath("Plugins");
 
     foreach (QString name, root.entryList(QDir::Files)) {
         QPluginLoader loader(root.absoluteFilePath(name));
