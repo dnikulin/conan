@@ -28,6 +28,7 @@
 ConanScreen::ConanScreen(QWidget *parent) : QGLWidget(parent) {
     volume = NULL;
     volumeList = 0;
+    volumeTexture = 0;
 
     drawPlanes = false;
     drawLogarithmic = false;
@@ -74,7 +75,7 @@ void ConanScreen::initializeGL() {
     // Configure additive blending
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_3D);
     glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH);
 

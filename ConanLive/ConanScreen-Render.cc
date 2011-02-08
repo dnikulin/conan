@@ -48,58 +48,60 @@ void ConanScreen::makeGeometry() {
     glPushMatrix();
     glScalef(scale, scale, scale);
 
+    // Bind full 3D texture before pushing quads
+    glBindTexture(GL_TEXTURE_3D, volumeTexture);
+
     glBegin(GL_QUADS);
 
     // Create one quad per slice per plane
-    for (GLuint nplane = 0, index = 0; nplane < 3; nplane++) {
-        for (GLuint nslice = 0; nslice < voxels; nslice++, index++) {
+    for (GLuint nplane = 0; nplane < 3; nplane++) {
+        for (GLuint nslice = 0; nslice < voxels; nslice++) {
             // Create default spans for all dimensions
-            GLint min[] = {     0,      0,      0};
-            GLint max[] = {voxels, voxels, voxels};
+            GLfloat min[] = {     0,      0,      0};
+            GLfloat max[] = {voxels, voxels, voxels};
 
-            // Bind texture before pushing quad
-            glBindTexture(GL_TEXTURE_2D, textureList.at(index));
+            // Replace min and max along a specific dimension
+            min[nplane] = max[nplane] = (0.5f + nslice);
 
-            // Draw each quad twice, to close each cube
-            for (size_t offset = 0; offset <= 1; offset++) {
-                // Replace min and max along a specific dimension
-                min[nplane] = max[nplane] = nslice + offset;
+            // Normalise to texture coordinate
+            GLfloat const fslice = min[nplane] / voxels;
 
-                // Push quad with winding order pointing away from origin
-                glTexCoord2i(0, 0);
-                glVertex3i(min[0], min[1], min[2]);
+            switch (nplane) {
+            case 0:
+                // X plane, Y and Z change
+                glTexCoord3f(fslice, 0, 0);
+                glVertex3f(min[0], min[1], min[2]);
+                glTexCoord3f(fslice, 0, 1);
+                glVertex3f(min[0], min[1], max[2]);
+                glTexCoord3f(fslice, 1, 1);
+                glVertex3f(min[0], max[1], max[2]);
+                glTexCoord3f(fslice, 1, 0);
+                glVertex3f(min[0], max[1], min[2]);
+                break;
 
-                switch (nplane) {
-                case 0:
-                    // X plane, Y and Z change
-                    glTexCoord2i(0, 1);
-                    glVertex3i(min[0], min[1], max[2]);
-                    glTexCoord2i(1, 1);
-                    glVertex3i(min[0], max[1], max[2]);
-                    glTexCoord2i(1, 0);
-                    glVertex3i(min[0], max[1], min[2]);
-                    break;
+            case 1:
+                // Y plane, X and Z change
+                glTexCoord3f(0, fslice, 0);
+                glVertex3f(min[0], min[1], min[2]);
+                glTexCoord3f(0, fslice, 1);
+                glVertex3f(min[0], min[1], max[2]);
+                glTexCoord3f(1, fslice, 1);
+                glVertex3f(max[0], min[1], max[2]);
+                glTexCoord3f(1, fslice, 0);
+                glVertex3f(max[0], min[1], min[2]);
+                break;
 
-                case 1:
-                    // Y plane, X and Z change
-                    glTexCoord2i(0, 1);
-                    glVertex3i(min[0], min[1], max[2]);
-                    glTexCoord2i(1, 1);
-                    glVertex3i(max[0], min[1], max[2]);
-                    glTexCoord2i(1, 0);
-                    glVertex3i(max[0], min[1], min[2]);
-                    break;
-
-                case 2:
-                    // Z plane, X and Y change
-                    glTexCoord2i(0, 1);
-                    glVertex3i(min[0], max[1], min[2]);
-                    glTexCoord2i(1, 1);
-                    glVertex3i(max[0], max[1], min[2]);
-                    glTexCoord2i(1, 0);
-                    glVertex3i(max[0], min[1], min[2]);
-                    break;
-                }
+            case 2:
+                // Z plane, X and Y change
+                glTexCoord3f(0, 0, fslice);
+                glVertex3f(min[0], min[1], min[2]);
+                glTexCoord3f(0, 1, fslice);
+                glVertex3f(min[0], max[1], min[2]);
+                glTexCoord3f(1, 1, fslice);
+                glVertex3f(max[0], max[1], min[2]);
+                glTexCoord3f(1, 0, fslice);
+                glVertex3f(max[0], min[1], min[2]);
+                break;
             }
         }
     }
@@ -114,11 +116,14 @@ void ConanScreen::makeTextures() {
     if (volume == NULL)
         return;
 
+    // Blitz Range for all of an axis
+    blitz::Range all = blitz::Range::all();
+
     GLuint const voxels = volume->columns();
-    GLuint const nslices = voxels * 3;
 
     Conan::Volume vol(voxels, voxels, voxels);
     vol = *volume;
+    vol.transposeSelf(2, 1, 0);
     Conan::normalise(vol);
 
     if (drawLogarithmic) {
@@ -135,46 +140,23 @@ void ConanScreen::makeTextures() {
 
     vol *= (2.0f / voxels);
 
-    // Free existing textures
-    if (textureList.isEmpty() == false) {
-        glDeleteTextures(textureList.size(), textureList.data());
-        textureList.clear();
-    }
+    if (volumeTexture == 0)
+        glGenTextures(1, &volumeTexture);
 
-    // Allocate textures
-    textureList.resize(nslices);
-    glGenTextures(nslices, textureList.data());
+    // Select texture
+    glBindTexture(GL_TEXTURE_3D, volumeTexture);
 
-    // Blitz Range for all of an axis
-    blitz::Range all = blitz::Range::all();
+    // Replace alpha channel entirely, don't modulate
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-    // Create one texture per slice per plane
-    for (GLuint nplane = 0, index = 0; nplane < 3; nplane++) {
-        for (GLuint nslice = 0; nslice < voxels; nslice++, index++) {
-            Conan::Slice slice(voxels, voxels);
+    // Set mipmap and filtering modes
+    glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-            switch(nplane) {
-            case 0: slice = vol(nslice, all, all).transpose(1, 0); break;
-            case 1: slice = vol(all, nslice, all).transpose(1, 0); break;
-            case 2: slice = vol(all, all, nslice).transpose(1, 0); break;
-            }
-
-            // Select texture
-            glBindTexture(GL_TEXTURE_2D, textureList.at(index));
-
-            // Replace alpha channel entirely, don't modulate
-            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-
-            // Set mipmap and filtering modes
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-            // Assign texture data
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
-                         voxels, voxels, 0,
-                         GL_ALPHA, GL_FLOAT, slice.data());
-        }
-    }
+    // Assign texture data
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_ALPHA,
+                 voxels, voxels, voxels, 0,
+                 GL_ALPHA, GL_FLOAT, vol.data());
 }

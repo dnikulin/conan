@@ -89,7 +89,7 @@ protected:
     cl_float2 rotation;
 
     GLuint volumeList;
-    QVector<GLuint> textureList;
+    GLuint volumeTexture;
 };
 
 #endif // CONAN_LIVE_SCREEN_HH
