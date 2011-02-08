@@ -26,6 +26,11 @@
 #ifndef CONAN_ZERO_GLOBAL_HH
 #define CONAN_ZERO_GLOBAL_HH
 
+// Include standard headers before blitz,
+// as they're not transitive on mingw.
+#include <cmath>
+#include <cstdlib>
+
 // Use QtCore types.
 #include <QtCore/QObject>
 
