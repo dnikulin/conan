@@ -26,10 +26,12 @@
 #include "ConanWindow.hh"
 #include "ui_ConanWindow.h"
 
+#include "ConanLivePlugin.hh"
 #include "TextFile.hh"
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QPluginLoader>
 
 ConanWindow::ConanWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -61,6 +63,23 @@ ConanWindow::ConanWindow(QWidget *parent) :
 
 ConanWindow::~ConanWindow() {
     delete ui;
+}
+
+void ConanWindow::loadPlugins() {
+    QDir root(qApp->applicationDirPath());
+
+    foreach (QString name, root.entryList(QDir::Files)) {
+        QPluginLoader loader(root.absoluteFilePath(name));
+        QObject *object = loader.instance();
+        if (object != NULL)
+            loadPlugin(object);
+    }
+}
+
+void ConanWindow::loadPlugin(QObject *object) {
+    ConanLivePlugin * plugin = qobject_cast<ConanLivePlugin *>(object);
+    if (plugin != NULL)
+        plugin->installPlugin(this);
 }
 
 void ConanWindow::clickedOpenTextFile() {

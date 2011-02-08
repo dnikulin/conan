@@ -23,43 +23,21 @@
 // OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 // ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef CONAN_LIVE_WINDOW_HH
-#define CONAN_LIVE_WINDOW_HH
+#ifndef CONAN_LIVE_PLUGIN_HH
+#define CONAN_LIVE_PLUGIN_HH
 
-#include "Volume.hh"
+#include "ConanWindow.hh"
 
-#include <QMainWindow>
+#include <QtPlugin>
 
-namespace Ui {
-    class ConanWindow;
-}
-
-class ConanWindow : public QMainWindow {
-    Q_OBJECT
-
+class ConanLivePlugin {
 public:
 
-    explicit ConanWindow(QWidget *parent = 0);
-    ~ConanWindow();
+    virtual ~ConanLivePlugin() {}
 
-    void loadPlugins();
-    void loadPlugin(QObject * object);
-
-signals:
-
-    void changedVolume(Conan::Volume const * volume);
-
-public slots:
-
-    void clickedOpenTextFile();
-
-public: // Leave public to allow access for plugins
-
-    Ui::ConanWindow *ui;
-
-    // Current volume
-    // TODO: Factor out into session state
-    Conan::Volume volume;
+    virtual void installPlugin(ConanWindow * window) = 0;
 };
 
-#endif // CONAN_LIVE_WINDOW_HH
+Q_DECLARE_INTERFACE(ConanLivePlugin, "org.dnikulin.Conan.ConanLivePlugin/1.0")
+
+#endif // CONAN_LIVE_PLUGIN_HH

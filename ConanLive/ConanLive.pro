@@ -30,6 +30,7 @@ SOURCES +=                     \
 HEADERS +=                     \
     ConanWindow.hh             \
     ConanScreen.hh             \
+    ConanLivePlugin.hh
 
 FORMS +=                       \
     ConanWindow.ui             \
