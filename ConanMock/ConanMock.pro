@@ -4,7 +4,7 @@ TARGET = ConanMock
 TEMPLATE = lib
 CONFIG += plugin
 
-DESTDIR = ../Plugins/
+DESTDIR = ../Release/Plugins/
 
 DEPENDPATH +=                  \
     ../ConanZero/              \
@@ -15,7 +15,7 @@ INCLUDEPATH +=                 \
     ../ConanLive/              \
 
 LIBS +=                        \
-    -L../ConanZero/            \
+    -L../Release/              \
     -lConanZero                \
 
 SOURCES +=                     \

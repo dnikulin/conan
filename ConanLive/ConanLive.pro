@@ -3,6 +3,8 @@ QT       += core gui opengl
 TARGET = ConanLive
 TEMPLATE = app
 
+DESTDIR = ../Release/
+
 DEPENDPATH +=                  \
     ../ConanZero/              \
     ../ConanFile/              \
@@ -12,8 +14,7 @@ INCLUDEPATH +=                 \
     ../ConanFile/              \
 
 LIBS +=                        \
-    -L../ConanZero/            \
-    -L../ConanFile/            \
+    -L../Release/              \
     -lConanZero                \
     -lConanFile                \
 

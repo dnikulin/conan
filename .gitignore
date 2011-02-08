@@ -4,4 +4,5 @@ lib*so*
 *.o
 moc_*
 ui_*
+/Release/
 

@@ -3,6 +3,8 @@ QT       -= gui
 TARGET = ConanZero
 TEMPLATE = lib
 
+DESTDIR = ../Release/
+
 DEFINES += CONANZERO_LIBRARY
 
 SOURCES +=                     \

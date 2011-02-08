@@ -72,9 +72,6 @@ void ConanWindow::loadPlugins() {
     // Start from binary directory
     QDir root(qApp->applicationDirPath());
 
-    // Move up to root directory
-    root.cdUp();
-
     // Move down to Plugins directory
     root.cd("Plugins");
 
