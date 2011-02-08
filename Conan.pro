@@ -4,3 +4,4 @@ SUBDIRS =              \
     ConanZero          \
     ConanFile          \
     ConanLive          \
+    ConanMock          \
