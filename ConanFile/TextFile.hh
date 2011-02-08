@@ -19,6 +19,7 @@
 #define CONAN_FILE_TEXT_FILE_HH
 
 #include "ConanFileGlobal.hh"
+#include "Volume.hh"
 
 namespace Conan {
 

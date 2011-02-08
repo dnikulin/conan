@@ -10,9 +10,9 @@ SOURCES +=                     \
 
 HEADERS +=                     \
     ConanZeroGlobal.hh         \
-    ConanTypes.hh              \
     Device.hh                  \
     Math.hh                    \
+    Volume.hh                  \
 
 LIBS +=                        \
     -lOpenCL                   \

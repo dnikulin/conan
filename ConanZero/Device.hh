@@ -18,7 +18,7 @@
 #ifndef CONAN_ZERO_DEVICE_HH
 #define CONAN_ZERO_DEVICE_HH
 
-#include "ConanTypes.hh"
+#include "ConanZeroGlobal.hh"
 
 #include <QtCore/QString>
 #include <QtCore/QVector>

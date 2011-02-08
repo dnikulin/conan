@@ -18,7 +18,7 @@
 #ifndef CONAN_LIVE_WINDOW_HH
 #define CONAN_LIVE_WINDOW_HH
 
-#include "ConanTypes.hh"
+#include "Volume.hh"
 
 #include <QMainWindow>
 

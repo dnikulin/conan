@@ -18,7 +18,7 @@
 #ifndef CONAN_FILE_GLOBAL_HH
 #define CONAN_FILE_GLOBAL_HH
 
-#include "ConanTypes.hh"
+#include "ConanZeroGlobal.hh"
 
 // Declare macro for symbol import/export.
 #if defined(CONANFILE_LIBRARY)
