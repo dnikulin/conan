@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with Conan.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef CONANWINDOW_HH
-#define CONANWINDOW_HH
+#ifndef CONAN_LIVE_WINDOW_HH
+#define CONAN_LIVE_WINDOW_HH
 
 #include "ConanTypes.hh"
 
@@ -51,4 +51,4 @@ private:
     Conan::Volume volume;
 };
 
-#endif // CONANWINDOW_HH
+#endif // CONAN_LIVE_WINDOW_HH

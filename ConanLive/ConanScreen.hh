@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with Conan.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef CONANSCREEN_HH
-#define CONANSCREEN_HH
+#ifndef CONAN_LIVE_SCREEN_HH
+#define CONAN_LIVE_SCREEN_HH
 
 #include "ConanTypes.hh"
 
@@ -84,4 +84,4 @@ protected:
     QVector<GLuint> textureList;
 };
 
-#endif // CONANSCREEN_HH
+#endif // CONAN_LIVE_SCREEN_HH

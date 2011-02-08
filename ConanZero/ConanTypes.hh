@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with Conan.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef CONANTYPES_HH
-#define CONANTYPES_HH
+#ifndef CONAN_ZERO_TYPES_HH
+#define CONAN_ZERO_TYPES_HH
 
 #include "ConanZeroGlobal.hh"
 
@@ -30,4 +30,4 @@ typedef blitz::Array<Volume::T_numtype, 2> Slice;
 
 }
 
-#endif // CONANTYPES_HH
+#endif // CONAN_ZERO_TYPES_HH

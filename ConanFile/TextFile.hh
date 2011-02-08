@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with Conan.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TEXTFILE_HH
-#define TEXTFILE_HH
+#ifndef CONAN_FILE_TEXT_FILE_HH
+#define CONAN_FILE_TEXT_FILE_HH
 
 #include "ConanFileGlobal.hh"
 
@@ -29,4 +29,4 @@ void CONANFILESHARED_EXPORT readTextFileVolume(
 
 }
 
-#endif // TEXTFILE_HH
+#endif // CONAN_FILE_TEXT_FILE_HH

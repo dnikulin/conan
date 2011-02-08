@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with Conan.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef CONANFILE_GLOBAL_HH
-#define CONANFILE_GLOBAL_HH
+#ifndef CONAN_FILE_GLOBAL_HH
+#define CONAN_FILE_GLOBAL_HH
 
 #include "ConanTypes.hh"
 
@@ -27,4 +27,4 @@
 #  define CONANFILESHARED_EXPORT Q_DECL_IMPORT
 #endif
 
-#endif // CONANFILE_GLOBAL_HH
+#endif // CONAN_FILE_GLOBAL_HH

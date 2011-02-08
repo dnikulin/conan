@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with Conan.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef CONANZERO_GLOBAL_HH
-#define CONANZERO_GLOBAL_HH
+#ifndef CONAN_ZERO_GLOBAL_HH
+#define CONAN_ZERO_GLOBAL_HH
 
 // Use QtCore types.
 #include <QtCore/QObject>
@@ -40,4 +40,4 @@
 #  define CONANZEROSHARED_EXPORT Q_DECL_IMPORT
 #endif
 
-#endif // CONANZERO_GLOBAL_HH
+#endif // CONAN_ZERO_GLOBAL_HH
