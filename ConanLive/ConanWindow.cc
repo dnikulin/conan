@@ -40,12 +40,29 @@ ConanWindow::ConanWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
-    // Connect signal for volume change
+    // Create file worker assigned to thread
+    fileThread.setObjectName("fileThread");
+    fileWorker.setObjectName("fileWorker");
+    fileWorker.moveToThread(&fileThread);
+
+    // Connect signal for volume change by window
     ui->screen->connect(this,
         SIGNAL(changedVolume(Conan::SharedVolume)),
         SLOT(setVolume(Conan::SharedVolume))
     );
 
+    // Connect signals for volume read from file
+    fileWorker.connect(this,
+        SIGNAL(selectedTextFile(QString)),
+        SLOT(readTextFile(QString))
+    );
+
+    connect(&fileWorker,
+        SIGNAL(volumeRead(QString, Conan::SharedVolume)),
+        SLOT(volumeRead(QString, Conan::SharedVolume))
+    );
+
+    fileThread.start();
     loadPlugins();
     makeStartingVolume();
 }
@@ -56,7 +73,7 @@ ConanWindow::~ConanWindow() {
 
 void ConanWindow::makeStartingVolume() {
     // Create shared data array
-    Conan::SharedVolume volume;
+    Conan::SharedVolume volume(8);
     Conan::Volume &vol(volume.array());
 
     blitz::Range all = blitz::Range::all();
@@ -99,16 +116,16 @@ void ConanWindow::clickedOpenTextFile() {
     if (path.isEmpty())
         return;
 
-    // Create shared data array
-    Conan::SharedVolume volume;
-    Conan::readTextFileVolume(&volume.array(), path);
+    emit selectedTextFile(path);
+}
 
+void ConanWindow::volumeRead(QString path, Conan::SharedVolume volume) {
     // Check the volume was actually populated
     if (volume.width() < 1) {
         QString message("Volume size must be a cube of a power of 2");
-        QMessageBox::critical(this, message, message);
+        QMessageBox::critical(this, path, message);
+        return;
     }
 
-    // Either way, emit signal for volume change
     emit changedVolume(volume);
 }

@@ -27,8 +27,10 @@
 #define CONAN_LIVE_WINDOW_HH
 
 #include "SharedVolume.hh"
+#include "FileWorker.hh"
 
 #include <QMainWindow>
+#include <QThread>
 
 namespace Ui {
     class ConanWindow;
@@ -49,14 +51,19 @@ public:
 signals:
 
     void changedVolume(Conan::SharedVolume volume);
+    void selectedTextFile(QString path);
 
 public slots:
 
     void clickedOpenTextFile();
+    void volumeRead(QString path, Conan::SharedVolume volume);
 
 public: // Leave public to allow access for plugins
 
     Ui::ConanWindow *ui;
+
+    QThread fileThread;
+    Conan::FileWorker fileWorker;
 };
 
 #endif // CONAN_LIVE_WINDOW_HH

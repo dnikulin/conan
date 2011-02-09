@@ -8,10 +8,12 @@ DESTDIR = ../Release/Plugins/
 
 DEPENDPATH +=                  \
     ../ConanZero/              \
+    ../ConanFile/              \
     ../ConanLive/              \
 
 INCLUDEPATH +=                 \
     ../ConanZero/              \
+    ../ConanFile/              \
     ../ConanLive/              \
 
 LIBS +=                        \

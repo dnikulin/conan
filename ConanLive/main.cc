@@ -24,11 +24,15 @@
 // ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <QtGui/QApplication>
+#include <QMetaType>
+
 #include "ConanWindow.hh"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    qRegisterMetaType<Conan::SharedVolume>("Conan::SharedVolume");
+
     ConanWindow w;
     w.show();
 
