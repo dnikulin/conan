@@ -26,7 +26,7 @@
 #ifndef CONAN_LIVE_WINDOW_HH
 #define CONAN_LIVE_WINDOW_HH
 
-#include "Volume.hh"
+#include "SharedVolume.hh"
 
 #include <QMainWindow>
 
@@ -42,12 +42,13 @@ public:
     explicit ConanWindow(QWidget *parent = 0);
     ~ConanWindow();
 
+    void makeStartingVolume();
     void loadPlugins();
     void loadPlugin(QObject * object);
 
 signals:
 
-    void changedVolume(Conan::Volume const * volume);
+    void changedVolume(Conan::SharedVolume volume);
 
 public slots:
 
@@ -56,10 +57,6 @@ public slots:
 public: // Leave public to allow access for plugins
 
     Ui::ConanWindow *ui;
-
-    // Current volume
-    // TODO: Factor out into session state
-    Conan::Volume volume;
 };
 
 #endif // CONAN_LIVE_WINDOW_HH

@@ -27,11 +27,11 @@
 #include "Math.hh"
 
 void ConanScreen::makeGeometry() {
-    if (volume == NULL)
+    if (volume.columns() < 1)
         return;
 
     // Number of voxels along each axis
-    GLuint const voxels = volume->columns();
+    GLuint const voxels = volume.columns();
 
     // Allocate list if unavailable
     if (volumeList == 0)
@@ -113,16 +113,14 @@ void ConanScreen::makeGeometry() {
 }
 
 void ConanScreen::makeTextures() {
-    if (volume == NULL)
+    if (volume.columns() < 1)
         return;
 
-    // Blitz Range for all of an axis
-    blitz::Range all = blitz::Range::all();
-
-    GLuint const voxels = volume->columns();
+    // Number of voxels along each axis
+    GLuint const voxels = volume.columns();
 
     Conan::Volume vol(voxels, voxels, voxels);
-    vol = *volume;
+    vol = volume;
     vol.transposeSelf(2, 1, 0);
     Conan::normalise(vol);
 

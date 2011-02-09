@@ -26,7 +26,7 @@
 #ifndef CONAN_LIVE_SCREEN_HH
 #define CONAN_LIVE_SCREEN_HH
 
-#include "Volume.hh"
+#include "SharedVolume.hh"
 
 #include <QGLWidget>
 
@@ -42,7 +42,8 @@ signals:
 
 public slots:
 
-    void setVolume(Conan::Volume const * volume);
+    void setVolume(Conan::SharedVolume volume);
+
     void setDrawPlanes(bool drawPlanes);
     void setDrawLogarithmic(bool drawLogarithmic);
     void setDrawQuadratic(bool drawQuadratic);
@@ -79,7 +80,6 @@ protected:
     virtual void makeGeometry();
     virtual void makeTextures();
 
-    Conan::Volume const * volume;
     bool drawPlanes;
     bool drawLogarithmic;
     bool drawQuadratic;
@@ -90,6 +90,8 @@ protected:
     QPoint mousePoint;
 
     cl_float2 rotation;
+
+    Conan::Volume volume;
 
     GLuint volumeList;
     GLuint volumeTexture;

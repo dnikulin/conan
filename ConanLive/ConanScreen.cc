@@ -26,7 +26,6 @@
 #include "ConanScreen.hh"
 
 ConanScreen::ConanScreen(QWidget *parent) : QGLWidget(parent) {
-    volume = NULL;
     volumeList = 0;
     volumeTexture = 0;
 
@@ -41,10 +40,18 @@ ConanScreen::ConanScreen(QWidget *parent) : QGLWidget(parent) {
 ConanScreen::~ConanScreen() {
 }
 
-void ConanScreen::setVolume(Conan::Volume const * volume) {
-    this->volume = volume;
+void ConanScreen::setVolume(Conan::SharedVolume nvolume) {
+    // Obtain read lock while generating texture
+    {
+        QReadLocker lock(&nvolume->lock);
+        int const width = nvolume->width();
+        if (volume.columns() != width)
+            volume.resize(width, width, width);
+        volume = nvolume->array;
+        makeTextures();
+    }
 
-    makeTextures();
+    // Geometry is independent of array data
     makeGeometry();
     repaint();
 }
@@ -96,9 +103,6 @@ void ConanScreen::paintGL() {
     glLoadIdentity();
 
     applyBackColour();
-
-    if (volume == NULL)
-        return;
 
     if (volumeTexture == 0)
         return;
