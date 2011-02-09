@@ -25,20 +25,56 @@
 
 #include "SharedVolume.hh"
 
+#include <QSharedData>
+
 namespace Conan {
 
-SharedVolumeData::SharedVolumeData()
-{
+class SharedVolumeData : public QSharedData, public boost::noncopyable {
+public:
+
+    explicit SharedVolumeData() {}
+
+    explicit SharedVolumeData(int width) : array(width, width, width) {
+        array = 0;
+    }
+
+    ~SharedVolumeData() {
+        array.free();
+    }
+
+    Volume array;
+    QReadWriteLock lock;
+};
+
+SharedVolume::SharedVolume() : data(new SharedVolumeData()) {
 }
 
-SharedVolumeData::SharedVolumeData(size_t width) :
-    array(width, width, width)
-{
-    array = 0;
+SharedVolume::SharedVolume(int width) : data(new SharedVolumeData(width)) {
 }
 
-SharedVolumeData::~SharedVolumeData() {
-    array.free();
+SharedVolume::SharedVolume(SharedVolume const &that) : data(that.data) {
+}
+
+SharedVolume & SharedVolume::operator =(SharedVolume const &that) {
+    data.reset();
+    data = that.data;
+    return *this;
+}
+
+SharedVolume::~SharedVolume() {
+    data.reset();
+}
+
+Volume & SharedVolume::array() {
+    return data->array;
+}
+
+Volume const & SharedVolume::array() const {
+    return data->array;
+}
+
+QReadWriteLock *SharedVolume::lock() {
+    return &data->lock;
 }
 
 }

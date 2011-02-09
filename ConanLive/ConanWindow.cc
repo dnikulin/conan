@@ -56,9 +56,8 @@ ConanWindow::~ConanWindow() {
 
 void ConanWindow::makeStartingVolume() {
     // Create shared data array
-    Conan::SharedVolumeData *data = new Conan::SharedVolumeData(8);
-    Conan::SharedVolume volume(data);
-    Conan::Volume &vol(volume->array);
+    Conan::SharedVolume volume;
+    Conan::Volume &vol(volume.array());
 
     blitz::Range all = blitz::Range::all();
 
@@ -101,13 +100,11 @@ void ConanWindow::clickedOpenTextFile() {
         return;
 
     // Create shared data array
-    Conan::SharedVolumeData *data = new Conan::SharedVolumeData();
-    Conan::SharedVolume volume(data);
-
-    Conan::readTextFileVolume(&volume->array, path);
+    Conan::SharedVolume volume;
+    Conan::readTextFileVolume(&volume.array(), path);
 
     // Check the volume was actually populated
-    if (volume->width() < 1) {
+    if (volume.width() < 1) {
         QString message("Volume size must be a cube of a power of 2");
         QMessageBox::critical(this, message, message);
     }

@@ -43,11 +43,11 @@ ConanScreen::~ConanScreen() {
 void ConanScreen::setVolume(Conan::SharedVolume nvolume) {
     // Obtain read lock while generating texture
     {
-        QReadLocker lock(&nvolume->lock);
-        int const width = nvolume->width();
+        QReadLocker lock(nvolume.lock());
+        int const width = nvolume.width();
         if (volume.columns() != width)
             volume.resize(width, width, width);
-        volume = nvolume->array;
+        volume = nvolume.array();
         makeTextures();
     }
 

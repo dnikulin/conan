@@ -28,29 +28,36 @@
 
 #include "Volume.hh"
 
+#include <QExplicitlySharedDataPointer>
 #include <QReadWriteLock>
-#include <QSharedData>
-
 
 namespace Conan {
 
-class SharedVolumeData : public QSharedData, public boost::noncopyable {
+class SharedVolumeData;
+
+class SharedVolume {
 public:
 
-    explicit SharedVolumeData();
-    explicit SharedVolumeData(size_t width);
+    SharedVolume();
+    explicit SharedVolume(int width);
+    SharedVolume(SharedVolume const & that);
 
-    ~SharedVolumeData();
+    SharedVolume & operator =(SharedVolume const & that);
+
+    ~SharedVolume();
+
+    Volume & array();
+    Volume const & array() const;
+    QReadWriteLock *lock();
 
     inline int width() const {
-        return array.columns();
+        return array().columns();
     }
 
-    Volume array;
-    QReadWriteLock lock;
-};
+private:
 
-typedef QExplicitlySharedDataPointer<SharedVolumeData> SharedVolume;
+    QExplicitlySharedDataPointer<SharedVolumeData> data;
+};
 
 }
 
