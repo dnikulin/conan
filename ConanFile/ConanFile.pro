@@ -19,7 +19,9 @@ DEFINES += CONANFILE_LIBRARY
 
 SOURCES +=                     \
     TextFile.cc                \
+    FileWorker.cc              \
 
 HEADERS +=                     \
     ConanFileGlobal.hh         \
     TextFile.hh                \
+    FileWorker.hh              \
