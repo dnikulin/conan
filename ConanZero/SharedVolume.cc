@@ -23,19 +23,22 @@
 // OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 // ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef CONAN_ZERO_VOLUME_HH
-#define CONAN_ZERO_VOLUME_HH
-
-#include "ConanZeroGlobal.hh"
+#include "SharedVolume.hh"
 
 namespace Conan {
 
-// 3D volume array of native OpenCL float type (32-bit).
-typedef blitz::Array<cl_float,          3> Volume;
-
-// 2D volume array of same type.
-typedef blitz::Array<Volume::T_numtype, 2> Slice;
-
+SharedVolumeData::SharedVolumeData()
+{
 }
 
-#endif // CONAN_ZERO_VOLUME_HH
+SharedVolumeData::SharedVolumeData(size_t width) :
+    array(width, width, width)
+{
+    array = 0;
+}
+
+SharedVolumeData::~SharedVolumeData() {
+    array.free();
+}
+
+}

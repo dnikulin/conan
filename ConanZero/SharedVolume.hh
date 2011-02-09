@@ -23,19 +23,35 @@
 // OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 // ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef CONAN_ZERO_VOLUME_HH
-#define CONAN_ZERO_VOLUME_HH
+#ifndef CONAN_ZERO_SHARED_VOLUME_HH
+#define CONAN_ZERO_SHARED_VOLUME_HH
 
-#include "ConanZeroGlobal.hh"
+#include "Volume.hh"
+
+#include <QReadWriteLock>
+#include <QSharedData>
+
 
 namespace Conan {
 
-// 3D volume array of native OpenCL float type (32-bit).
-typedef blitz::Array<cl_float,          3> Volume;
+class SharedVolumeData : public QSharedData, public boost::noncopyable {
+public:
 
-// 2D volume array of same type.
-typedef blitz::Array<Volume::T_numtype, 2> Slice;
+    explicit SharedVolumeData();
+    explicit SharedVolumeData(size_t width);
+
+    ~SharedVolumeData();
+
+    inline int width() const {
+        return array.columns();
+    }
+
+    Volume array;
+    QReadWriteLock lock;
+};
+
+typedef QExplicitlySharedDataPointer<SharedVolumeData> SharedVolume;
 
 }
 
-#endif // CONAN_ZERO_VOLUME_HH
+#endif // CONAN_ZERO_SHARED_VOLUME_HH
