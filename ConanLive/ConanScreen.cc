@@ -71,6 +71,11 @@ void ConanScreen::setDrawWhite(bool drawWhite) {
     repaint();
 }
 
+void ConanScreen::setDrawInterpolated(bool drawInterpolated) {
+    this->drawInterpolated = drawInterpolated;
+    repaint();
+}
+
 void ConanScreen::initializeGL() {
     // Configure additive blending
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -94,6 +99,12 @@ void ConanScreen::paintGL() {
 
     if (volume == NULL)
         return;
+
+    if (volumeTexture == 0)
+        return;
+
+    // Apply any texture settings
+    applyTextureSettings();
 
     // Draw perspective pane
     setPerspective();
@@ -139,4 +150,12 @@ void ConanScreen::applyBackColour() {
 void ConanScreen::applyForeColour() {
     GLfloat v = (drawWhite ? 1 : 0);
     glColor4f(v, v, v, 1);
+}
+
+void ConanScreen::applyTextureSettings() {
+    glBindTexture(GL_TEXTURE_3D, volumeTexture);
+
+    GLint filter = drawInterpolated ? GL_LINEAR : GL_NEAREST;
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, filter);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, filter);
 }

@@ -47,6 +47,7 @@ public slots:
     void setDrawLogarithmic(bool drawLogarithmic);
     void setDrawQuadratic(bool drawQuadratic);
     void setDrawWhite(bool drawWhite);
+    void setDrawInterpolated(bool drawInterpolated);
 
 protected:
 
@@ -58,6 +59,7 @@ protected:
     virtual void setPerspective();
     virtual void applyBackColour();
     virtual void applyForeColour();
+    virtual void applyTextureSettings();
 
     virtual void drawPlaneX();
     virtual void drawPlaneY();
@@ -82,6 +84,7 @@ protected:
     bool drawLogarithmic;
     bool drawQuadratic;
     bool drawWhite;
+    bool drawInterpolated;
 
     QPoint screenSize;
     QPoint mousePoint;

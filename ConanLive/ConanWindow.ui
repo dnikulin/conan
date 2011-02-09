@@ -54,10 +54,12 @@
      <string>&amp;View</string>
     </property>
     <addaction name="actionDraw_individual_planes"/>
-    <addaction name="actionWhite_on_black"/>
     <addaction name="separator"/>
     <addaction name="actionLogarithmic_scale"/>
     <addaction name="actionQuadratic_scale"/>
+    <addaction name="separator"/>
+    <addaction name="actionWhite_on_black"/>
+    <addaction name="actionInterpolate_voxels"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_View"/>
@@ -113,6 +115,17 @@
     <string>&amp;White on black</string>
    </property>
   </action>
+  <action name="actionInterpolate_voxels">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Interpolate voxels</string>
+   </property>
+   <property name="statusTip">
+    <string>Warning: Exposes OpenGL bugs in many drivers.</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -126,6 +139,7 @@
     <slot>setDrawLogarithmic(bool)</slot>
     <slot>setDrawQuadratic(bool)</slot>
     <slot>setDrawWhite(bool)</slot>
+    <slot>setDrawInterpolated(bool)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -248,6 +262,22 @@
    <signal>toggled(bool)</signal>
    <receiver>screen</receiver>
    <slot>setDrawWhite(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>307</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionInterpolate_voxels</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>screen</receiver>
+   <slot>setDrawInterpolated(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
