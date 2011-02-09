@@ -26,6 +26,9 @@
 #ifndef CONAN_LIVE_SCREEN_HH
 #define CONAN_LIVE_SCREEN_HH
 
+#include <GL/gl.h>
+#include <GL/glext.h>
+
 #include "SharedVolume.hh"
 
 #include <QGLWidget>

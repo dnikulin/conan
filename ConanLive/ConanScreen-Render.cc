@@ -116,6 +116,14 @@ void ConanScreen::makeTextures() {
     if (volume.columns() < 1)
         return;
 
+#ifdef WIN32
+    // Load OpenGL 1.2 API if available.
+    PFNGLTEXIMAGE3DPROC glTexImage3D =
+            (PFNGLTEXIMAGE3DPROC) wglGetProcAddress("glTexImage3D");
+    if (glTexImage3D == NULL)
+        return;
+#endif
+
     // Number of voxels along each axis
     GLuint const voxels = volume.columns();
 
