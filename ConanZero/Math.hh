@@ -33,8 +33,8 @@ namespace Conan {
 template<class DT, int rank>
 void normalise(blitz::Array<DT, rank> &array) {
     DT max = blitz::max(array);
-    DT min = blitz::min(array);
-    array *= (DT(1) / (max - min));
+    if (max > 0)
+        array *= (DT(1) / max);
 }
 
 }
