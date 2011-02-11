@@ -24,6 +24,8 @@
 // ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "ConanScreen.hh"
+
+#include "ColourMap.hh"
 #include "Math.hh"
 
 void ConanScreen::makeGeometry() {
@@ -144,7 +146,9 @@ void ConanScreen::makeTextures() {
         Conan::normalise(vol);
     }
 
-    vol *= (2.0f / voxels);
+    std::vector<cl_uchar4> image(vol.size());
+    for (int i = 0; i < vol.size(); i++)
+        image[i] = Conan::colourHot(vol.data()[i]);
 
     if (volumeTexture == 0)
         glGenTextures(1, &volumeTexture);
@@ -163,7 +167,7 @@ void ConanScreen::makeTextures() {
     glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
     // Assign texture data
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_ALPHA,
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA,
                  voxels, voxels, voxels, 0,
-                 GL_ALPHA, GL_FLOAT, vol.data());
+                 GL_RGBA, GL_UNSIGNED_BYTE, image.data());
 }

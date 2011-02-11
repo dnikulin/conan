@@ -26,11 +26,13 @@ SOURCES +=                     \
     ConanScreen-Panes.cc       \
     ConanScreen-Render.cc      \
     ConanScreen-Rotate.cc      \
+    ColourMap.cc
 
 HEADERS +=                     \
     ConanWindow.hh             \
     ConanScreen.hh             \
     ConanLivePlugin.hh         \
+    ColourMap.hh
 
 FORMS +=                       \
     ConanWindow.ui             \
