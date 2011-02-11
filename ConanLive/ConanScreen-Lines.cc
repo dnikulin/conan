@@ -28,6 +28,7 @@
 void ConanScreen::ruleAxes() {
     // Disable blending to over-draw lines
     glDisable(GL_BLEND);
+    glDisable(GL_TEXTURE_3D);
     glBegin(GL_LINES);
     glLineWidth(1);
 

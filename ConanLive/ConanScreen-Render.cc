@@ -42,6 +42,7 @@ void ConanScreen::makeGeometry() {
     // Start compiling display list
     glNewList(volumeList, GL_COMPILE);
     glEnable(GL_BLEND);
+    glEnable(GL_TEXTURE_3D);
     glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH);
 
